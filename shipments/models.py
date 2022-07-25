@@ -31,6 +31,7 @@ class ShipmentModel(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     title = models.CharField(max_length=255)
     status = models.CharField(max_length=127, choices=ShipmentStatus.choices, default=ShipmentStatus.ORDERED)
+    description = models.CharField(max_length=255, blank=True, null=False)
 
     # address = models.ForeignKey('shipments.ShippingAddressModel', on_delete=SET_NULL)
     # sender = models.ForeignKey(User, on_delete=SET_NULL) # TODO

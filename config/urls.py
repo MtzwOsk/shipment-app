@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from shipments.views import HomePageView
+
 urlpatterns = [
+    path('', HomePageView.as_view()),
     path('admin/', admin.site.urls),
     path(r'api/v1/', include('shipments.urls', namespace='shipment_api')),
 ]

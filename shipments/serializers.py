@@ -13,4 +13,4 @@ class ShipmentCreateSerializer(ModelSerializer):
 
     class Meta:
         model = ShipmentModel
-        fields = ['title']
+        fields = ['title', 'description']
