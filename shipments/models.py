@@ -11,18 +11,19 @@ class ShipmentStatus(models.TextChoices):
     DELIVERED = _('Delivered')
 
 
-class ShippingAddressModel(models.Model):
-    name = models.CharField('Full name', max_length=1024)
-    address1 = models.CharField('Address line 1', max_length=1024)
-    address2 = models.CharField('Address line 2', max_length=1024)
-    zip_code = models.CharField('ZIP / Postal code', max_length=12)
-    city = models.CharField('City', max_length=255)
-    country = models.CharField('Country', max_length=3)  # TODO  choices=ISO_3166_CODES)
-    address_email = models.EmailField('E-mail')
-
-    class Meta:
-        verbose_name = 'Shipping Address'
-        verbose_name_plural = 'Shipping Addresses'
+# TODO
+# class ShippingAddressModel(models.Model):
+#     name = models.CharField('Full name', max_length=1024)
+#     address1 = models.CharField('Address line 1', max_length=1024)
+#     address2 = models.CharField('Address line 2', max_length=1024)
+#     zip_code = models.CharField('ZIP / Postal code', max_length=12)
+#     city = models.CharField('City', max_length=255)
+#     country = models.CharField('Country', max_length=3)  # TODO  choices=ISO_3166_CODES)
+#     address_email = models.EmailField('E-mail')
+#
+#     class Meta:
+#         verbose_name = 'Shipping Address'
+#         verbose_name_plural = 'Shipping Addresses'
 
 
 class ShipmentModel(models.Model):
@@ -33,8 +34,9 @@ class ShipmentModel(models.Model):
     status = models.CharField(max_length=127, choices=ShipmentStatus.choices, default=ShipmentStatus.ORDERED)
     description = models.CharField(max_length=255, blank=True, null=False)
 
-    # address = models.ForeignKey('shipments.ShippingAddressModel', on_delete=SET_NULL)
-    # sender = models.ForeignKey(User, on_delete=SET_NULL) # TODO
+    # TODO separated models
+    receiver_address = models.CharField(max_length=512)
+    sender_address = models.CharField(max_length=512)
 
     class Meta:
         verbose_name = 'Shipment'

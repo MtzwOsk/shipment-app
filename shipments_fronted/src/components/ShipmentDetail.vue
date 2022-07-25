@@ -9,7 +9,9 @@
           <h2>ID: {{ shipment.id }} </h2>
           <h3>Date: {{ shipment.created_at }}</h3>
           <h3>Status: {{ shipment.status }}</h3>
-          <p>{{ shipment.description }}</p>
+          <p>Description: {{ shipment.description }}</p>
+          <p>Pickup Address: {{ shipment.receiver_address }}</p>
+          <p>Delivery Address: {{ shipment.sender_address }}</p>
         </li>
       </ul>
     </div>

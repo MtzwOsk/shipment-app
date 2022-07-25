@@ -7,13 +7,23 @@
       <div class="add_shipment">
         <form v-on:submit.prevent="submitForm">
           <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Title: </label>
             <input type="text" class="form-control" id="title" v-model="title" required>
           </div>
           <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Description: </label>
             <textarea class="form-control" id="description" v-model="description" required></textarea>
           </div>
+
+          <div class="form-group">
+            <label for="sender-address">Pickup address: </label>
+            <textarea class="form-control" id="sender-address" v-model="sender_address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="receiver_address">Delivery address: </label>
+            <textarea class="form-control" id="receiver_address" v-model="receiver_address" required></textarea>
+          </div>
+
           <div class="form-group">
             <button type="submit">Add Shipment</button>
           </div>
@@ -32,7 +42,9 @@ export default {
     return {
       shipments: [],
       title: '',
-      description: ''
+      description: '',
+      receiver_address: '',
+      sender_address: '',
     }
   },
   methods: {
@@ -42,14 +54,17 @@ export default {
         const response = await axios.post('/api/v1/shipments/', {
           title: this.title,
           description: this.description,
-          completed: false
+          receiver_address: this.receiver_address,
+          sender_address: this.receiver_address,
         });
-        // Append the returned data to the shipments array
-        // this.shipments.push(response.data);
+
         // Reset the title and description field values.
         this.title = '';
         this.description = '';
-        console.log('Success Added') // TODO
+        this.receiver_address = '';
+        this.sender_address = '';
+
+        console.log('Success Added') // TODO alert
       } catch (error) {
         // Log the error
         console.log(error);

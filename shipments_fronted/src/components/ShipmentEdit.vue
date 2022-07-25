@@ -13,6 +13,14 @@
         <textarea class="form-control" id="description" v-model="description" required></textarea>
       </div>
       <div class="form-group">
+        <label for="sender-address">Pickup address: </label>
+        <textarea class="form-control" id="sender-address" v-model="sender_address" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="receiver_address">Delivery address: </label>
+        <textarea class="form-control" id="receiver_address" v-model="receiver_address" required></textarea>
+      </div>
+      <div class="form-group">
         <button type="submit">Edit Shipment</button>
       </div>
     </form>
@@ -42,7 +50,10 @@ export default {
         // set the data returned as shipments
         this.shipments = response.data;
         this.title = response.data['title'] // TODO FORM init
-        this.description = response.data['description'] // TODO FORM init
+        this.description = response.data['description']
+        this.sender_address = response.data['sender_address']
+        this.receiver_address = response.data['receiver_address']
+
 
       } catch (error) {
         // log the error
@@ -52,11 +63,13 @@ export default {
     async editShipment(shipment) {
       try {
         // Send a request to API to update the shipment
-        const response = await axios.put(`/api/v1/shipments/`+ parseInt(this.$route.params.id) + '/', {
+        const response = await axios.put(`/api/v1/shipments/` + parseInt(this.$route.params.id) + '/', {
           title: this.title,
-          description: this.description
+          description: this.description,
+          sender_address: this.sender_address,
+          receiver_address: this.receiver_address,
         });
-       console.log('Success Edited') // TODO alert
+        console.log('Success Edited') // TODO alert
       } catch (error) {
 
         // Log any error
