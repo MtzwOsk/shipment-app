@@ -41,7 +41,7 @@ class ShipmentViewSetAPI(ViewSet):
     def update(self, request, pk=None):
         queryset = ShipmentModel.objects.all()
         shipment = get_object_or_404(queryset, pk=pk)
-        serializer = ShipmentSerializer(shipment, data=self.request.data)
+        serializer = ShipmentCreateSerializer(shipment, data=self.request.data)
         serializer.is_valid(raise_exception=False)
         serializer.save()
         return Response(serializer.data)

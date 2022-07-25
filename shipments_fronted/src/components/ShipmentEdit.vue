@@ -56,7 +56,7 @@ export default {
           title: this.title,
           description: this.description
         });
-
+       console.log('Success Edited') // TODO alert
       } catch (error) {
 
         // Log any error
