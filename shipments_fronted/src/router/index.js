@@ -1,8 +1,9 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Shipments from '../components/Shipments.vue'
-import ShipmentEdit from "@/components/ShipmentEdit"
-import ShipmentAdd from "@/components/ShipmentAdd"
+import {createRouter, createWebHistory} from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import Shipments from '../components/Shipments.vue';
+import ShipmentEdit from "@/components/ShipmentEdit";
+import ShipmentAdd from "@/components/ShipmentAdd";
+import ShipmentDetail from "@/components/ShipmentDetail";
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/shipment/:id',
         name: 'shipmentEdit',
         component: ShipmentEdit
+    },
+    {
+        path: '/shipment/:id/detail',
+        name: 'shipmentDetail',
+        component: ShipmentDetail
     },
     {
         path: '/shipment/add',

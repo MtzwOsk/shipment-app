@@ -6,10 +6,12 @@
       <ul class="shipments_list">
         <li v-for="shipment in shipments" :key="shipment.id">
           <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
-          <h3>Date: {{ shipment.created_at}}</h3>
           <h3>Status: {{ shipment.status }}</h3>
           <p>{{ shipment.description }}</p>
           <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">Edit</router-link>
+          |
+          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">Details</router-link>
+          |
           <button @click="deleteShipment(shipment)">Delete</button>
         </li>
       </ul>
