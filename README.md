@@ -1,5 +1,4 @@
-# Shipments backend APP
-
+# Shipments APP vue + django (MVP)
 
 ## Project setup python 3.9
 ```
@@ -8,8 +7,8 @@ python3 --version
 
 ### Create env
 ```
-python3 -m venv ./
-source ./bin/activate
+virtualenv --python=python3 venv
+source venv/bin/activate
 ```
 
 ### Install dependencies
@@ -17,9 +16,24 @@ source ./bin/activate
 pip install requirements.txt
 ```
 
-### makemigrateion and run dev server
+### Make migration and collect static files
 ```
+python manage.py collectstatic
 python manage.py migrate
-python manage.py runserver
+```
 
+### Run frontend app dev 
+```
+cd shipments_fronted/
+npm install
+npm run serve
+```
+### Run backend app dev
+```
+python manage.py runserver
+```
+
+### Index url: 
+```
+http://127.0.0.1:8000/
 ```
