@@ -35,8 +35,10 @@
 
 <script>
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
 
 export default {
+
   name: "ShipmentAdd",
   data() {
     return {
@@ -64,7 +66,10 @@ export default {
         this.receiver_address = '';
         this.sender_address = '';
 
-        console.log('Success Added') // TODO alert
+        notify({
+          type: "success",
+          title: "Shipment added !",
+        });
       } catch (error) {
         // Log the error
         console.log(error);

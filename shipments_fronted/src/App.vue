@@ -1,9 +1,14 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/shipments">Shipments</router-link> |
-    <router-link to="/shipment/add">Add Shipment</router-link>
-  </nav>
+  <div id="app">
+    <notifications />
+    <nav>
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/shipments">Shipments</router-link>
+      |
+      <router-link to="/shipment/add">Add Shipment</router-link>
+    </nav>
+  </div>
   <router-view/>
 </template>
 
@@ -11,7 +16,6 @@
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }

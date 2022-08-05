@@ -13,7 +13,7 @@ source venv/bin/activate
 
 ### Install dependencies
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Make migration and collect static files
@@ -27,9 +27,11 @@ python manage.py migrate
 cd shipments_fronted/
 npm install
 npm run serve
+npm run build
 ```
 ### Run backend app dev
 ```
+cd .. shipment-app (main catalog)
 python manage.py runserver
 ```
 
