@@ -8,9 +8,13 @@
           <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
           <h3>Status: {{ shipment.status }}</h3>
           <p>{{ shipment.description }}</p>
-          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">Edit</router-link>
+          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}" tag="button">
+            <Button>Edit</Button>
+          </router-link>
           |
-          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">Details</router-link>
+          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}" tag="button">
+            <Button>Details</Button>
+          </router-link>
           |
           <button @click="deleteShipment(shipment)">Delete</button>
         </li>
@@ -21,6 +25,7 @@
 
 <script>
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
 
 
 export default {
@@ -43,7 +48,10 @@ export default {
         this.shipments = response.data;
       } catch (error) {
         // log the error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with get list, try later !",
+        });
       }
     },
     async deleteShipment(shipment) {
@@ -56,14 +64,14 @@ export default {
 
           // Send a request to delete the task
           await axios.delete(`/api/v1/shipments/${shipment.id}/`);
-
           // Refresh the shipments
           this.getData();
+
         } catch (error) {
-
-          // Log any error
-
-          console.log(error)
+          notify({
+            type: "error",
+            title: "Problem with edit, try later !",
+          });
         }
       }
     }

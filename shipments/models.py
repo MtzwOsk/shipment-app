@@ -26,7 +26,7 @@ class ShipmentStatus(models.TextChoices):
 #         verbose_name_plural = 'Shipping Addresses'
 
 
-class ShipmentModel(models.Model):
+class Shipment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
@@ -35,8 +35,8 @@ class ShipmentModel(models.Model):
     description = models.CharField(max_length=255, blank=True, null=False)
 
     # TODO separated models
-    receiver_address = models.CharField(max_length=512)
-    sender_address = models.CharField(max_length=512)
+    pickup_address = models.CharField(max_length=512)
+    delivery_address = models.CharField(max_length=512)
 
     class Meta:
         verbose_name = 'Shipment'

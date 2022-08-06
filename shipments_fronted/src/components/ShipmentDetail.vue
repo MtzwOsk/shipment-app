@@ -2,16 +2,15 @@
   <div class="shipments_container">
     <div class="shipments_content">
       <h1>Shipments: </h1>
-
       <ul class="shipments_list">
         <li v-for="shipment in shipments" :key="shipment.id">
           <h2>Title: {{ shipment.title }} </h2>
           <h2>ID: {{ shipment.id }} </h2>
           <h3>Date: {{ shipment.created_at }}</h3>
           <h3>Status: {{ shipment.status }}</h3>
-          <p>Description: {{ shipment.description }}</p>
-          <p>Pickup Address: {{ shipment.receiver_address }}</p>
-          <p>Delivery Address: {{ shipment.sender_address }}</p>
+          <h4>Description: {{ shipment.description }}</h4>
+          <h4>Pickup Address: {{ shipment.pickup_address }}</h4>
+          <h4>Delivery Address: {{ shipment.delivery_address }}</h4>
         </li>
       </ul>
     </div>
@@ -21,6 +20,8 @@
 <script>
 
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
+
 
 export default {
   name: "ShipmentDetail",
@@ -42,16 +43,19 @@ export default {
         this.shipments = [response.data];
         this.title = response.data['title'] // TODO FORM init
         this.description = response.data['description'] // TODO FORM init
-        this.created_at = response.date.get('created_at')
+        this.created_at = response.data['created_at']
 
-      } catch (error) { // TODO handle err
-        // log the error
-        console.log(error);
+      } catch (error) {
+        notify({
+          type: "error",
+          title: "Problem with get details!",
+        });
+
       }
     },
   },
   created() {
-    // Fetch shipments on page load
+    // Fetch shipment on page load
     this.getData();
   }
 }

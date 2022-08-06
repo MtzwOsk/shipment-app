@@ -16,12 +16,12 @@
           </div>
 
           <div class="form-group">
-            <label for="sender-address">Pickup address: </label>
-            <textarea class="form-control" id="sender-address" v-model="sender_address" required></textarea>
+            <label for="pickup_address">Pickup address: </label>
+            <textarea class="form-control" id="pickup-address" v-model="pickup_address" required></textarea>
           </div>
           <div class="form-group">
-            <label for="receiver_address">Delivery address: </label>
-            <textarea class="form-control" id="receiver_address" v-model="receiver_address" required></textarea>
+            <label for="delivery_address">Delivery address: </label>
+            <textarea class="form-control" id="delivery-address" v-model="delivery_address" required></textarea>
           </div>
 
           <div class="form-group">
@@ -38,15 +38,14 @@ import axios from "axios";
 import {notify} from "@kyvg/vue3-notification";
 
 export default {
-
   name: "ShipmentAdd",
   data() {
     return {
       shipments: [],
       title: '',
       description: '',
-      receiver_address: '',
-      sender_address: '',
+      delivery_address: '',
+      pickup_address: '',
     }
   },
   methods: {
@@ -56,23 +55,27 @@ export default {
         const response = await axios.post('/api/v1/shipments/', {
           title: this.title,
           description: this.description,
-          receiver_address: this.receiver_address,
-          sender_address: this.receiver_address,
+          pickup_address: this.pickup_address,
+          delivery_address: this.delivery_address,
         });
-
-        // Reset the title and description field values.
-        this.title = '';
-        this.description = '';
-        this.receiver_address = '';
-        this.sender_address = '';
 
         notify({
           type: "success",
           title: "Shipment added !",
         });
+
+        // Reset the title and description field values.
+        this.title = '';
+        this.description = '';
+        this.pickup_address = '';
+        this.delivery_address = '';
+
       } catch (error) {
         // Log the error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with added, try later !",
+        });
       }
     },
   }
