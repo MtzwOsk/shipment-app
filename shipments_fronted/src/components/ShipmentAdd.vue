@@ -1,33 +1,24 @@
 <template>
   <div class="shipments_container">
     <div class="shipments_content">
-      <div>
-        Add shipment
-      </div>
       <div class="add_shipment">
-        <form v-on:submit.prevent="submitForm">
+        <v-form id="shipmentEditFrom" v-on:submit.prevent="submitForm">
+          <v-row justify="center">
+            <v-col align-self="center" class="center-block">
+              <v-text-field label="Title" v-model="title" aria-required="true">
+              </v-text-field>
+              <v-text-field label="Description" v-model="description" aria-required="true">
+              </v-text-field>
+              <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
+              </v-text-field>
+              <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
+              </v-text-field>
+            </v-col>
+          </v-row>
           <div class="form-group">
-            <label for="title">Title: </label>
-            <input type="text" class="form-control" id="title" v-model="title" required>
+            <v-btn color="#42b983" type="submit">Edit Shipment</v-btn>
           </div>
-          <div class="form-group">
-            <label for="description">Description: </label>
-            <textarea class="form-control" id="description" v-model="description" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="pickup_address">Pickup address: </label>
-            <textarea class="form-control" id="pickup-address" v-model="pickup_address" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="delivery_address">Delivery address: </label>
-            <textarea class="form-control" id="delivery-address" v-model="delivery_address" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <button type="submit">Add Shipment</button>
-          </div>
-        </form>
+        </v-form>
       </div>
     </div>
   </div>

@@ -1,29 +1,23 @@
 <template>
   <div>
-    <p>Edit shipment {{ $route.params.id }}</p>
-
-    <form id="shipmentEditFrom" v-on:submit.prevent="editShipment">
-      <label for="shipmentEditFrom">Shipment edit form</label>
+    <v-app-bar-title>Edit shipment {{ $route.params.id }}</v-app-bar-title>
+    <v-form id="shipmentEditFrom" v-on:submit.prevent="editShipment">
+      <v-row justify="center">
+        <v-col align-self="center" class="center-block">
+          <v-text-field label="Title" v-model="title" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Description" v-model="description" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
+          </v-text-field>
+        </v-col>
+      </v-row>
       <div class="form-group">
-        <label for="title">Title: </label>
-        <input type="text" class="form-control" id="title" v-model="title" required>
+        <v-btn color="#42b983" type="submit">Edit Shipment</v-btn>
       </div>
-      <div class="form-group">
-        <label for="description">Description: </label>
-        <textarea class="form-control" id="description" v-model="description" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="pickup-address">Pickup address: </label>
-        <textarea class="form-control" id="pickup_address" v-model="pickup_address" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="delivery-address">Delivery address: </label>
-        <textarea class="form-control" id="delivery_address" v-model="delivery_address" required></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit">Edit Shipment</button>
-      </div>
-    </form>
+    </v-form>
   </div>
 </template>
 
@@ -39,7 +33,9 @@ export default {
     return {
       shipments: [],
       title: '',
-      description: ''
+      description: '',
+      pickup_address: '',
+      delivery_address: '',
     }
   },
   methods: {
@@ -55,6 +51,11 @@ export default {
         this.description = response.data['description']
         this.pickup_address = response.data['pickup_address']
         this.delivery_address = response.data['delivery_address']
+
+        this.title = 'title' // TODO FORM init
+        this.description = 'description'
+        this.pickup_address = 'pickup_address'
+        this.delivery_address = 'delivery_address'
 
 
       } catch (error) {

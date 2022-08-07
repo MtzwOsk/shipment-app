@@ -1,26 +1,33 @@
 <template>
-  <div class="shipments_container">
-    <div class="shipments_content">
-      <h1>Shipments: </h1>
+  <h2>Shipments:</h2>
+  <v-card>
+    <v-toolbar color="#42b983">
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <ul class="shipments_list">
-        <li v-for="shipment in shipments" :key="shipment.id">
-          <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
-          <h3>Status: {{ shipment.status }}</h3>
-          <p>{{ shipment.description }}</p>
-          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}" tag="button">
-            <Button>Edit</Button>
-          </router-link>
-          |
-          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}" tag="button">
-            <Button>Details</Button>
-          </router-link>
-          |
-          <button @click="deleteShipment(shipment)">Delete</button>
-        </li>
-      </ul>
-    </div>
-  </div>
+      <v-toolbar-title>Inbox</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-list v-for="(shipment, i) in shipments">
+      <v-list-item-title v-html="shipment.status"></v-list-item-title>
+      <v-list-item-subtitle v-html="shipment.description"></v-list-item-subtitle>
+
+      <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
+      <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">
+        <v-btn>Edit</v-btn>
+      </router-link>
+      |
+      <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">
+        <v-btn>Detail</v-btn>
+      </router-link>
+      |
+      <v-btn @click="deleteShipment(shipment)">Delete</v-btn>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
@@ -29,11 +36,13 @@ import {notify} from "@kyvg/vue3-notification";
 
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Shipment",
+  name: "Shipments",
   data() {
     return {
-      shipments: [],
+      shipments: [
+        {'title': 'test', 'status': 'wait', 'id': '123', 'description': 'description'},
+        {'title': 'test', 'status': 'ready', 'id': '123123', 'description': 'description'}
+      ],
       title: '',
       description: ''
     }
@@ -83,6 +92,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
 
 </style>
