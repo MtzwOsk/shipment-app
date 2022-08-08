@@ -16,7 +16,7 @@
             </v-col>
           </v-row>
           <div class="form-group">
-            <v-btn color="#42b983" type="submit">Edit Shipment</v-btn>
+            <v-btn color="#42b983" type="submit">Add Shipment</v-btn>
           </div>
         </v-form>
       </div>

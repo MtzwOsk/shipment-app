@@ -1,33 +1,39 @@
 <template>
-  <h2>Shipments:</h2>
-  <v-card>
-    <v-toolbar color="#42b983">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+  <v-row justify="center">
+    <v-col align-self="center" class="center-block">
+      <v-card>
+<!--        <v-toolbar color="#42b983">-->
+<!--          <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
 
-      <v-toolbar-title>Inbox</v-toolbar-title>
+<!--          <v-toolbar-title>Shipments</v-toolbar-title>-->
 
-      <v-spacer></v-spacer>
+<!--          <v-spacer></v-spacer>-->
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-list v-for="(shipment, i) in shipments">
-      <v-list-item-title v-html="shipment.status"></v-list-item-title>
-      <v-list-item-subtitle v-html="shipment.description"></v-list-item-subtitle>
+<!--          <v-btn icon>-->
+<!--            <v-icon>mdi-magnify</v-icon>-->
+<!--          </v-btn>-->
+<!--        </v-toolbar>-->
+        <v-list v-for="(shipment, i) in shipments" two-line>
+          <v-list-item-title v-html="shipment.status"></v-list-item-title>
+          <v-list-item-subtitle v-html="shipment.title"></v-list-item-subtitle>
 
-      <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
-      <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">
-        <v-btn>Edit</v-btn>
-      </router-link>
-      |
-      <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">
-        <v-btn>Detail</v-btn>
-      </router-link>
-      |
-      <v-btn @click="deleteShipment(shipment)">Delete</v-btn>
-    </v-list>
-  </v-card>
+          <!--          <v-row justify="center">-->
+          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">
+            <v-btn>Edit</v-btn>
+          </router-link>
+          |
+          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">
+            <v-btn>Detail</v-btn>
+          </router-link>
+          |
+          <v-btn @click="deleteShipment(shipment)">Delete</v-btn>
+          <!--            <v-divider inset=""></v-divider>-->
+          <!--          </v-row>-->
+          <v-divider inset></v-divider>
+        </v-list>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
