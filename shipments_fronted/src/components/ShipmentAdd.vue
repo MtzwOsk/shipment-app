@@ -1,25 +1,23 @@
 <template>
   <div class="shipments_container">
     <div class="shipments_content">
-      <div class="add_shipment">
-        <v-form id="shipmentEditFrom" v-on:submit.prevent="submitForm">
-          <v-row justify="center">
-            <v-col align-self="center" class="center-block">
-              <v-text-field label="Title" v-model="title" aria-required="true">
-              </v-text-field>
-              <v-text-field label="Description" v-model="description" aria-required="true">
-              </v-text-field>
-              <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
-              </v-text-field>
-              <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
-              </v-text-field>
-            </v-col>
-          </v-row>
-          <div class="form-group">
-            <v-btn color="#42b983" type="submit">Add Shipment</v-btn>
-          </div>
-        </v-form>
-      </div>
+      <v-form id="shipmentEditFrom" v-on:submit.prevent="submitForm">
+        <v-row justify="center">
+          <v-col align-self="center" cols="col-6" md="4">
+            <v-text-field label="Title" v-model="title" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Description" v-model="description" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <div class="form-group">
+          <v-btn color="#42b983" type="submit">Add Shipment</v-btn>
+        </div>
+      </v-form>
     </div>
   </div>
 </template>

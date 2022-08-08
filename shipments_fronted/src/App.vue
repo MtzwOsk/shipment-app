@@ -11,7 +11,12 @@
     <v-container fluid>
       <router-view></router-view>
     </v-container>
-    <v-footer app>
+    <v-footer app color="#2c3e50">
+      <v-row>
+        <v-col class="text-center" cols="12">
+          {{ new Date().getFullYear() }} — <strong>Shipment</strong>
+        </v-col>
+      </v-row>
     </v-footer>
   </v-app>
 </template>
@@ -21,7 +26,6 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-align: center;
-  color: #203142;
   margin-left: auto;
   margin-right: auto;
 }

@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col align-self="center" class="center-block">
+    <v-col align-self="center" class="center-block" cols="col-6" md="4">
       <v-card>
 <!--        <v-toolbar color="#42b983">-->
 <!--          <v-app-bar-nav-icon></v-app-bar-nav-icon>-->
