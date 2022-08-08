@@ -9,7 +9,7 @@ class ShipmentSerializer(ModelSerializer):
         fields = ['title', 'id', 'status', 'created_at', 'description', 'pickup_address', 'delivery_address']
 
 
-class ShipmentCreateSerializer(ModelSerializer):
+class ShipmentUpdateOrCreateSerializer(ModelSerializer):
 
     class Meta:
         model = Shipment

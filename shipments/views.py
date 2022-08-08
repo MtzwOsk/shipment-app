@@ -1,52 +1,27 @@
-from typing import List
-
-from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import GenericViewSet
 
 from shipments.models import Shipment
-from shipments.serializers import ShipmentSerializer, ShipmentCreateSerializer
+from shipments.serializers import ShipmentSerializer, ShipmentUpdateOrCreateSerializer
 
 
 class HomePageView(TemplateView):
     template_name = 'index.html'
 
 
-class ShipmentViewSetAPI(ViewSet):
-    queryset = Shipment.objects.filter()
+class ShipmentViewSetAPI(CreateModelMixin, ListModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin,
+                         GenericViewSet):
+    queryset = Shipment.objects.all()
     permission_classes = [AllowAny]
-    authentication_classes: List = []
 
-    def list(self, request):
-        queryset = Shipment.objects.all()
-        serializer = ShipmentSerializer(queryset, many=True)
-        return Response(serializer.data)
+    serializer_map = {
+        'GET': ShipmentSerializer,
+        'POST': ShipmentUpdateOrCreateSerializer,
+        'PUT': ShipmentUpdateOrCreateSerializer,
+    }
 
-    def retrieve(self, request, pk=None):
-        queryset = Shipment.objects.all()
-        shipment = get_object_or_404(queryset, pk=pk)
-        serializer = ShipmentSerializer(shipment)
-        return Response(serializer.data)
-
-    def destroy(self, request, pk=None):
-        queryset = Shipment.objects.all()
-        shipment = get_object_or_404(queryset, pk=pk)
-        shipment.delete()
-        return Response(status=200)
-
-    def update(self, request, pk=None):
-        queryset = Shipment.objects.all()
-        shipment = get_object_or_404(queryset, pk=pk)
-        serializer = ShipmentCreateSerializer(shipment, data=self.request.data)
-        serializer.is_valid()
-        serializer.save()
-        return Response(serializer.data)
-
-    def create(self, request):
-        serializer = ShipmentCreateSerializer(data=request.data)
-        serializer.is_valid()
-        serializer.save()
-        return Response(status=HTTP_201_CREATED)
+    def get_serializer_class(self, *args, **kwargs):
+        return self.serializer_map.get(self.request.method, self.serializer_class)

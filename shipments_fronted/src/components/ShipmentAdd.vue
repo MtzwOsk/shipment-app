@@ -50,7 +50,7 @@ export default {
 
         notify({
           type: "success",
-          title: "Shipment added !",
+          title: "Shipment has been added !",
         });
 
         // Reset the title and description field values.

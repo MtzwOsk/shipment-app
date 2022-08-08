@@ -5,7 +5,14 @@ from rest_framework.test import APITestCase
 from shipments.models import Shipment
 
 
-class TestShipmentViewSet(APITestCase):
+class ShipmentDataMixin:
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.shipment = Shipment.objects.create(title='Title', pickup_address='Warsaw', delivery_address='NY')
+
+
+class CreateViewAPITest(APITestCase):
 
     def test_create_shipment(self):
         """
@@ -22,23 +29,54 @@ class TestShipmentViewSet(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Shipment.objects.filter(title=title).exists())
 
+
+class RetrieveShipmentViewAPITest(ShipmentDataMixin, APITestCase):
+
+    def test_retrieve_shipment(self):
+        """
+        Get shipments
+        """
+        url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.data.get('id'), self.shipment.id)
+
+
+class ListShipmentApiViewTest(ShipmentDataMixin, APITestCase):
+
+    def setUp(self):
+        self.shipment_2 = Shipment.objects.create(title='Title', pickup_address='Prague', delivery_address='Milano')
+
+    def test_list_shipment(self):
+        """
+        Listing shipments
+        """
+        url = reverse('shipment_api:shipment-list')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0].get('id'), self.shipment.id)
+        self.assertEqual(response.data[1].get('id'), self.shipment_2.id)
+
+
+class DeleteShipmentApiViewTest(ShipmentDataMixin, APITestCase):
+
     def test_delete_shipment(self):
         """
         Delete shipment through api
         """
-        shipment = Shipment.objects.create(title='Title', pickup_address='Warsaw', delivery_address='NY')
-        url = reverse('shipment_api:shipment-detail', args=[shipment.pk])
+        url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
         response = self.client.delete(url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Shipment.objects.count(), 0)
+
+
+class UpdateShipmentAPIViewTest(ShipmentDataMixin, APITestCase):
 
     def test_update_shipment(self):
         """
         Update shipment
         """
-        shipment = Shipment.objects.create(title='Old Title', pickup_address='Warsaw', delivery_address='NY')
-        url = reverse('shipment_api:shipment-detail', args=[shipment.pk])
-
+        url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
         new_title: str = 'New Title'
         changed_data_payload: dict = {
             'title': new_title,
@@ -47,28 +85,4 @@ class TestShipmentViewSet(APITestCase):
         }
         response = self.client.put(url, data=changed_data_payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Shipment.objects.get(id=shipment.id).title, new_title)
-
-    def test_list_shipment(self):
-        """
-        Listing shipments
-        """
-        shipment_1 = Shipment.objects.create(title='For friend', pickup_address='Warsaw', delivery_address='NY')
-        shipment_2 = Shipment.objects.create(title='Glass', pickup_address='Warsaw', delivery_address='NY')
-        url = reverse('shipment_api:shipment-list')
-
-        response = self.client.get(url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        self.assertEqual(len(response.data), 2)
-        self.assertEqual(response.data[0].get('id'), shipment_1.id)
-        self.assertEqual(response.data[1].get('id'), shipment_2.id)
-
-    def test_retrieve_shipment(self):
-        """
-        Get shipments
-        """
-        shipment = Shipment.objects.create(title='Fridge', pickup_address='Warsaw', delivery_address='NY')
-        url = reverse('shipment_api:shipment-detail', args=[shipment.pk])
-        response = self.client.get(url, format='json')
-        self.assertEqual(response.data.get('id'), shipment.id)
+        self.assertEqual(Shipment.objects.get(id=self.shipment.id).title, new_title)

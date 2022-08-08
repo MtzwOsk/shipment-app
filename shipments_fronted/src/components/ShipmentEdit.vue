@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-app-bar-title>Edit shipment {{ $route.params.id }}</v-app-bar-title>
+    <v-app-bar-title>Edit shipment: {{ $route.params.id }}</v-app-bar-title>
     <v-form id="shipmentEditFrom" v-on:submit.prevent="editShipment">
       <v-row justify="center">
-        <v-col align-self="center" class="center-block">
+        <v-col align-self="center" cols="col-6" md="4">
           <v-text-field label="Title" v-model="title" aria-required="true">
           </v-text-field>
           <v-text-field label="Description" v-model="description" aria-required="true">
@@ -47,17 +47,10 @@ export default {
         )
         // set the data returned as shipments
         this.shipments = response.data;
-        this.title = response.data['title'] // TODO FORM init
+        this.title = response.data['title']
         this.description = response.data['description']
         this.pickup_address = response.data['pickup_address']
         this.delivery_address = response.data['delivery_address']
-
-        this.title = 'title' // TODO FORM init
-        this.description = 'description'
-        this.pickup_address = 'pickup_address'
-        this.delivery_address = 'delivery_address'
-
-
       } catch (error) {
         notify({
           type: "error",
@@ -76,7 +69,7 @@ export default {
         });
         notify({
           type: "success",
-          title: "Shipment Edited !",
+          title: "Shipment has been Edited !",
         });
       } catch (error) {
         notify({
@@ -87,7 +80,6 @@ export default {
     }
   },
   created() {
-    // Fetch shipments on page load
     this.getData();
   }
 }
