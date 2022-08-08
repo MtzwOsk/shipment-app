@@ -1,5 +1,3 @@
-import uuid
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -11,32 +9,14 @@ class ShipmentStatus(models.TextChoices):
     DELIVERED = _('Delivered')
 
 
-# TODO
-# class ShippingAddressModel(models.Model):
-#     name = models.CharField('Full name', max_length=1024)
-#     address1 = models.CharField('Address line 1', max_length=1024)
-#     address2 = models.CharField('Address line 2', max_length=1024)
-#     zip_code = models.CharField('ZIP / Postal code', max_length=12)
-#     city = models.CharField('City', max_length=255)
-#     country = models.CharField('Country', max_length=3)  # TODO  choices=ISO_3166_CODES)
-#     address_email = models.EmailField('E-mail')
-#
-#     class Meta:
-#         verbose_name = 'Shipping Address'
-#         verbose_name_plural = 'Shipping Addresses'
-
-
-class ShipmentModel(models.Model):
+class Shipment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, db_index=True)
     title = models.CharField(max_length=255)
     status = models.CharField(max_length=127, choices=ShipmentStatus.choices, default=ShipmentStatus.ORDERED)
     description = models.CharField(max_length=255, blank=True, null=False)
-
-    # TODO separated models
-    receiver_address = models.CharField(max_length=512)
-    sender_address = models.CharField(max_length=512)
+    pickup_address = models.CharField(max_length=512)
+    delivery_address = models.CharField(max_length=512)
 
     class Meta:
         verbose_name = 'Shipment'

@@ -1,35 +1,31 @@
 <template>
   <div>
-    <p>Edit shipment {{ $route.params.id }}</p>
-
-    <form id="shipmentEditFrom" v-on:submit.prevent="editShipment">
-      <label for="shipmentEditFrom">Shipment edit form</label>
+    <v-app-bar-title>Edit shipment: {{ $route.params.id }}</v-app-bar-title>
+    <v-form id="shipmentEditFrom" v-on:submit.prevent="editShipment">
+      <v-row justify="center">
+        <v-col align-self="center" cols="col-6" md="4">
+          <v-text-field label="Title" v-model="title" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Description" v-model="description" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
+          </v-text-field>
+          <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
+          </v-text-field>
+        </v-col>
+      </v-row>
       <div class="form-group">
-        <label for="title">Title: </label>
-        <input type="text" class="form-control" id="title" v-model="title" required>
+        <v-btn color="#42b983" type="submit">Edit Shipment</v-btn>
       </div>
-      <div class="form-group">
-        <label for="description">Description: </label>
-        <textarea class="form-control" id="description" v-model="description" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="sender-address">Pickup address: </label>
-        <textarea class="form-control" id="sender-address" v-model="sender_address" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="receiver_address">Delivery address: </label>
-        <textarea class="form-control" id="receiver_address" v-model="receiver_address" required></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit">Edit Shipment</button>
-      </div>
-    </form>
+    </v-form>
   </div>
 </template>
 
 <script>
 
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
+
 
 export default {
   name: "ShipmentEdit",
@@ -37,7 +33,9 @@ export default {
     return {
       shipments: [],
       title: '',
-      description: ''
+      description: '',
+      pickup_address: '',
+      delivery_address: '',
     }
   },
   methods: {
@@ -49,15 +47,15 @@ export default {
         )
         // set the data returned as shipments
         this.shipments = response.data;
-        this.title = response.data['title'] // TODO FORM init
+        this.title = response.data['title']
         this.description = response.data['description']
-        this.sender_address = response.data['sender_address']
-        this.receiver_address = response.data['receiver_address']
-
-
+        this.pickup_address = response.data['pickup_address']
+        this.delivery_address = response.data['delivery_address']
       } catch (error) {
-        // log the error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with get data, try later !",
+        });
       }
     },
     async editShipment(shipment) {
@@ -66,19 +64,22 @@ export default {
         const response = await axios.put(`/api/v1/shipments/` + parseInt(this.$route.params.id) + '/', {
           title: this.title,
           description: this.description,
-          sender_address: this.sender_address,
-          receiver_address: this.receiver_address,
+          pickup_address: this.pickup_address,
+          delivery_address: this.delivery_address,
         });
-        console.log('Success Edited') // TODO alert
+        notify({
+          type: "success",
+          title: "Shipment has been Edited !",
+        });
       } catch (error) {
-
-        // Log any error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with edit, try later !",
+        });
       }
     }
   },
   created() {
-    // Fetch shipments on page load
     this.getData();
   }
 }

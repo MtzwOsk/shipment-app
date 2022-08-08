@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
 ### Make migration and collect static files
 ```
-python manage.py collectstatic
+python manage.py colleddtstatic
 python manage.py migrate
 ```
 

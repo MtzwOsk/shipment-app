@@ -1,62 +1,85 @@
 <template>
-  <div class="shipments_container">
-    <div class="shipments_content">
-      <h1>Shipments: </h1>
+  <v-row>
+    <v-col justify="center" class="fill-height">
+      <v-card class="mx-auto" max-width="344" tonal v-for="shipment in shipments" :key="shipment.id">
+        <v-toolbar color="#42b983">
+          <v-icon large>mdi-email
+          </v-icon>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-list-item three-line>
+          <v-card-title>
+            {{ shipment.title }}
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            {{ shipment.description }}
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-text>{{ shipment.delivery_address }}</v-card-text>
+          <v-divider></v-divider>
+          <v-card-text>{{ shipment.pickup_address }}</v-card-text>
+          <v-divider></v-divider>
+          <v-card-text>{{ shipment.status }}</v-card-text>
+          <v-divider></v-divider>
+        </v-list-item>
 
-      <ul class="shipments_list">
-        <li v-for="shipment in shipments" :key="shipment.id">
-          <h2>Title: {{ shipment.title }} </h2>
-          <h2>ID: {{ shipment.id }} </h2>
-          <h3>Date: {{ shipment.created_at }}</h3>
-          <h3>Status: {{ shipment.status }}</h3>
-          <p>Description: {{ shipment.description }}</p>
-          <p>Pickup Address: {{ shipment.receiver_address }}</p>
-          <p>Delivery Address: {{ shipment.sender_address }}</p>
-        </li>
-      </ul>
-    </div>
-  </div>
+        <v-card-text>
+          <v-timeline align-top dense>
+            <v-timeline-item v-for="shipment in shipments">
+              <div>
+                <div class="font-weight-normal">
+                  <v-col>
+                    <strong>{{ shipment.created_at }}</strong>
+                  </v-col>
+                </div>
+              </div>
+            </v-timeline-item>
+          </v-timeline>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
+
 
 export default {
   name: "ShipmentDetail",
   data() {
     return {
       shipments: [],
-      title: '',
-      description: ''
     }
   },
   methods: {
     async getData() {
       try {
-        // fetch shipments
+        // fetch shipment
         const response = await axios.get(
             '/api/v1/shipments/' + parseInt(this.$route.params.id) + '/'
         )
-        // set the data returned as shipments
+        // set the date
+        response.data.created_at = new Date(response.data.created_at).toString();
         this.shipments = [response.data];
-        this.title = response.data['title'] // TODO FORM init
-        this.description = response.data['description'] // TODO FORM init
-        this.created_at = response.date.get('created_at')
+      } catch (error) {
+        notify({
+          type: "error",
+          title: "Problem with get details!",
+        });
 
-      } catch (error) { // TODO handle err
-        // log the error
-        console.log(error);
       }
     },
   },
   created() {
-    // Fetch shipments on page load
+    // Fetch shipment on page load
     this.getData();
   }
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>

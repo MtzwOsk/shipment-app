@@ -1,40 +1,30 @@
 <template>
   <div class="shipments_container">
     <div class="shipments_content">
-      <div>
-        Add shipment
-      </div>
-      <div class="add_shipment">
-        <form v-on:submit.prevent="submitForm">
-          <div class="form-group">
-            <label for="title">Title: </label>
-            <input type="text" class="form-control" id="title" v-model="title" required>
-          </div>
-          <div class="form-group">
-            <label for="description">Description: </label>
-            <textarea class="form-control" id="description" v-model="description" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="sender-address">Pickup address: </label>
-            <textarea class="form-control" id="sender-address" v-model="sender_address" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="receiver_address">Delivery address: </label>
-            <textarea class="form-control" id="receiver_address" v-model="receiver_address" required></textarea>
-          </div>
-
-          <div class="form-group">
-            <button type="submit">Add Shipment</button>
-          </div>
-        </form>
-      </div>
+      <v-form id="shipmentEditFrom" v-on:submit.prevent="submitForm">
+        <v-row justify="center">
+          <v-col align-self="center" cols="col-6" md="4">
+            <v-text-field label="Title" v-model="title" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Description" v-model="description" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Pickup address" v-model="pickup_address" aria-required="true">
+            </v-text-field>
+            <v-text-field label="Delivery address" v-model="delivery_address" aria-required="true">
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <div class="form-group">
+          <v-btn color="#42b983" type="submit">Add Shipment</v-btn>
+        </div>
+      </v-form>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
 
 export default {
   name: "ShipmentAdd",
@@ -43,8 +33,8 @@ export default {
       shipments: [],
       title: '',
       description: '',
-      receiver_address: '',
-      sender_address: '',
+      delivery_address: '',
+      pickup_address: '',
     }
   },
   methods: {
@@ -54,20 +44,27 @@ export default {
         const response = await axios.post('/api/v1/shipments/', {
           title: this.title,
           description: this.description,
-          receiver_address: this.receiver_address,
-          sender_address: this.receiver_address,
+          pickup_address: this.pickup_address,
+          delivery_address: this.delivery_address,
+        });
+
+        notify({
+          type: "success",
+          title: "Shipment has been added !",
         });
 
         // Reset the title and description field values.
         this.title = '';
         this.description = '';
-        this.receiver_address = '';
-        this.sender_address = '';
+        this.pickup_address = '';
+        this.delivery_address = '';
 
-        console.log('Success Added') // TODO alert
       } catch (error) {
         // Log the error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with added, try later !",
+        });
       }
     },
   }

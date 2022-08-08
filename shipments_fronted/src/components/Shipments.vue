@@ -1,80 +1,80 @@
 <template>
-  <div class="shipments_container">
-    <div class="shipments_content">
-      <h1>Shipments: </h1>
-
-      <ul class="shipments_list">
-        <li v-for="shipment in shipments" :key="shipment.id">
-          <h2>{{ shipment.title }} : {{ shipment.id }} </h2>
-          <h3>Status: {{ shipment.status }}</h3>
-          <p>{{ shipment.description }}</p>
-          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">Edit</router-link>
+  <v-row justify="center">
+    <v-col align-self="center" class="center-block" cols="col-6" md="4">
+      <v-card>
+        <v-list v-for="(shipment, i) in shipments" two-line>
+          <v-list-item-title v-html="shipment.title"></v-list-item-title>
+          <v-list-item-subtitle v-html="shipment.description"></v-list-item-subtitle>
+          <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">
+            <v-btn color="grey-lighten-1" icon="mdi-pencil" variant="text"></v-btn>
+          </router-link>
           |
-          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">Details</router-link>
+          <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">
+            <v-btn color="grey-lighten-1" icon="mdi-information" variant="text"></v-btn>
+          </router-link>
           |
-          <button @click="deleteShipment(shipment)">Delete</button>
-        </li>
-      </ul>
-    </div>
-  </div>
+          <v-btn @click="deleteShipment(shipment)" color="grey-lighten-1" icon="mdi-delete" variant="text"></v-btn>
+          <v-divider inset></v-divider>
+        </v-list>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import axios from "axios";
+import {notify} from "@kyvg/vue3-notification";
 
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "Shipment",
+  name: "Shipments",
   data() {
     return {
       shipments: [],
       title: '',
-      description: ''
+      description: '',
+      dialog: false,
     }
   },
 
   methods: {
     async getData() {
       try {
-        // fetch shipments
         const response = await axios.get('/api/v1/shipments/');
         // set the data returned as shipments
         this.shipments = response.data;
       } catch (error) {
-        // log the error
-        console.log(error);
+        notify({
+          type: "error",
+          title: "Problem with get list, try later !",
+        });
       }
     },
-    async deleteShipment(shipment) {
+    deleteShipment: async function (shipment) {
 
-      // Confirm if one wants to delete the task
       let confirmation = confirm("Do you want to delete this shipment?");
 
       if (confirmation) {
         try {
-
-          // Send a request to delete the task
+          // Send a request to delete the shipment
           await axios.delete(`/api/v1/shipments/${shipment.id}/`);
-
-          // Refresh the shipments
           this.getData();
         } catch (error) {
-
-          // Log any error
-
-          console.log(error)
+          notify({
+            type: "error",
+            title: "Problem with delete, try later !",
+          });
         }
       }
     }
   },
   created() {
-    // Fetch shipments on page load
     this.getData();
   }
 }
 </script>
 
-<style scoped>
+<style>
+
 
 </style>
