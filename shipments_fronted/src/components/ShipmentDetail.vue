@@ -1,29 +1,23 @@
 <template>
   <v-row>
-    <v-col justify="center" class="fill-height">
+    <v-col justify="left" align="left" class="fill-height">
       <v-card class="mx-auto" max-width="344" tonal v-for="shipment in shipments" :key="shipment.id">
         <v-toolbar color="#42b983">
-          <v-icon large>mdi-email
-          </v-icon>
+          <v-icon large>mdi-email</v-icon>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-list-item three-line>
-          <v-card-title>
-            {{ shipment.title }}
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            {{ shipment.description }}
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-text>{{ shipment.delivery_address }}</v-card-text>
-          <v-divider></v-divider>
-          <v-card-text>{{ shipment.pickup_address }}</v-card-text>
-          <v-divider></v-divider>
-          <v-card-text>{{ shipment.status }}</v-card-text>
-          <v-divider></v-divider>
-        </v-list-item>
-
+        <v-text-field v-model="shipment.title" label="Title" readonly hide-details="auto"
+        ></v-text-field>
+        <v-text-field v-model="shipment.description" label="Description" readonly hide-details="auto"
+        ></v-text-field>
+        <v-text-field hide-details="auto" v-model="shipment.status" label="Status" readonly
+        ></v-text-field>
+        <v-textarea v-model="shipment.delivery_address" label="Delivery address" readonly hide-details="auto" auto-grow
+                    outlined
+        ></v-textarea>
+        <v-textarea v-model="shipment.pickup_address" label="Pickup address" readonly hide-details="auto" auto-grow
+                    outlined
+        ></v-textarea>
         <v-card-text>
           <v-timeline align-top dense>
             <v-timeline-item v-for="shipment in shipments">
