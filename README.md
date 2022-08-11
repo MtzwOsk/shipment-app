@@ -1,8 +1,9 @@
 # Shipments APP vue + django (MVP)
 
-## Project setup python 3.9
+## Project setup python 3.9 and npm 8.11.0
 ```
 python3 --version
+npm -v
 ```
 
 ### Create env
