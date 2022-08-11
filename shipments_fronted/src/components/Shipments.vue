@@ -1,21 +1,40 @@
 <template>
   <v-row justify="center">
     <v-col align-self="center" class="center-block" cols="col-6" md="4">
-      <v-card>
+      <v-card v-if="shipments.length">
         <v-list v-for="(shipment, i) in shipments" two-line>
           <v-list-item-title v-html="shipment.title"></v-list-item-title>
           <v-list-item-subtitle v-html="shipment.description"></v-list-item-subtitle>
           <router-link :to="{ name: 'shipmentEdit', params: { id:shipment.id }}">
-            <v-btn color="grey-lighten-1" icon="mdi-pencil" variant="text"></v-btn>
+            <v-tooltip location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn color="grey-lighten-1" icon="mdi-pencil" variant="text" v-bind="props"></v-btn>
+              </template>
+              <span>Edit</span>
+            </v-tooltip>
           </router-link>
           |
           <router-link :to="{ name: 'shipmentDetail', params: { id:shipment.id }}">
-            <v-btn color="grey-lighten-1" icon="mdi-information" variant="text"></v-btn>
+            <v-tooltip location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn color="grey-lighten-1" icon="mdi-information" variant="text" v-bind="props"></v-btn>
+              </template>
+              <span>Info</span>
+            </v-tooltip>
           </router-link>
           |
-          <v-btn @click="deleteShipment(shipment)" color="grey-lighten-1" icon="mdi-delete" variant="text"></v-btn>
+          <v-tooltip location="bottom">
+            <template v-slot:activator="{ props }">
+              <v-btn @click="deleteShipment(shipment)" color="grey-lighten-1" icon="mdi-delete" v-bind="props"
+                     variant="text"></v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
           <v-divider inset></v-divider>
         </v-list>
+      </v-card>
+      <v-card v-else>
+        No shipments
       </v-card>
     </v-col>
   </v-row>

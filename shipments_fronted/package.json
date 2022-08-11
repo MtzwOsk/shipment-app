@@ -1,6 +1,6 @@
 {
   "name": "shipment",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -14,7 +14,7 @@
     "roboto-fontface": "*",
     "vue": "^3.2.37",
     "vue-router": "^4.0.3",
-    "vuetify": "npm:@vuetify/nightly@next",
+    "vuetify": "^3.0.0-alpha.11",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {

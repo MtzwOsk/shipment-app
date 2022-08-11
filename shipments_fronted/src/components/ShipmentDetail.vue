@@ -2,9 +2,8 @@
   <v-row>
     <v-col justify="left" align="left" class="fill-height">
       <v-card class="mx-auto" max-width="344" tonal v-for="shipment in shipments" :key="shipment.id">
-        <v-toolbar color="#42b983">
-          <v-icon large>mdi-email</v-icon>
-          <v-spacer></v-spacer>
+        <v-toolbar dense color="#42b983">
+          <v-toolbar-title>#{{shipment.id}} Details:</v-toolbar-title>
         </v-toolbar>
         <v-text-field v-model="shipment.title" label="Title" readonly hide-details="auto"
         ></v-text-field>
@@ -56,8 +55,7 @@ export default {
         const response = await axios.get(
             '/api/v1/shipments/' + parseInt(this.$route.params.id) + '/'
         )
-        // set the date
-        response.data.created_at = new Date(response.data.created_at).toString();
+        response.data.created_at = new Date(response.data.created_at).toUTCString();
         this.shipments = [response.data];
       } catch (error) {
         notify({

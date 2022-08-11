@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
 from shipments.models import Shipment
-from shipments.serializers import ShipmentSerializer, ShipmentUpdateOrCreateSerializer
+from shipments.serializers import ShipmentSerializer
 
 
 class HomePageView(TemplateView):
@@ -16,12 +16,5 @@ class ShipmentViewSetAPI(CreateModelMixin, ListModelMixin, RetrieveModelMixin, D
                          GenericViewSet):
     queryset = Shipment.objects.all()
     permission_classes = [AllowAny]
+    serializer_class = ShipmentSerializer
 
-    serializer_map = {
-        'GET': ShipmentSerializer,
-        'POST': ShipmentUpdateOrCreateSerializer,
-        'PUT': ShipmentUpdateOrCreateSerializer,
-    }
-
-    def get_serializer_class(self, *args, **kwargs):
-        return self.serializer_map.get(self.request.method, self.serializer_class)

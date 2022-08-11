@@ -15,9 +15,6 @@ class ShipmentDataMixin:
 class CreateViewAPITest(APITestCase):
 
     def test_create_shipment(self):
-        """
-        Create Shipment
-        """
         url = reverse('shipment_api:shipment-list')
         title: str = 'Test Title'
         payload: dict = {
@@ -33,9 +30,6 @@ class CreateViewAPITest(APITestCase):
 class RetrieveShipmentViewAPITest(ShipmentDataMixin, APITestCase):
 
     def test_retrieve_shipment(self):
-        """
-        Get shipments
-        """
         url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
         response = self.client.get(url, format='json')
         self.assertEqual(response.data.get('id'), self.shipment.id)
@@ -61,9 +55,6 @@ class ListShipmentApiViewTest(ShipmentDataMixin, APITestCase):
 class DeleteShipmentApiViewTest(ShipmentDataMixin, APITestCase):
 
     def test_delete_shipment(self):
-        """
-        Delete shipment through api
-        """
         url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
         response = self.client.delete(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -73,15 +64,12 @@ class DeleteShipmentApiViewTest(ShipmentDataMixin, APITestCase):
 class UpdateShipmentAPIViewTest(ShipmentDataMixin, APITestCase):
 
     def test_update_shipment(self):
-        """
-        Update shipment
-        """
         url = reverse('shipment_api:shipment-detail', args=[self.shipment.pk])
         new_title: str = 'New Title'
         changed_data_payload: dict = {
             'title': new_title,
             'pickup_address': 'Yutz',
-            'delivery_address': 'Metz'
+            'delivery_address': 'Metz',
         }
         response = self.client.put(url, data=changed_data_payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
