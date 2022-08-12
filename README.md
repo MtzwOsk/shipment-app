@@ -1,9 +1,10 @@
 # Shipments APP vue + django (MVP)
 
-## Project setup python 3.9 and npm 8.11.0
+## Project setup: python 3.9, npm 8.11.0 and yarn 1.22.19
 ```
 python3 --version
 npm -v
+yarn -v
 ```
 
 ### Create env
@@ -23,13 +24,17 @@ python manage.py colleddtstatic
 python manage.py migrate
 ```
 
-### Run frontend app dev 
+### Run frontend app 
 ```
 cd shipments_fronted/
+
+# install dependencies
 npm install
-npm run serve
+
+# build for production with minification
 npm run build
 ```
+
 ### Run backend app dev 
 ```
 cd .. (main catalog shipment-app)
